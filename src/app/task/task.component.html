@@ -1,3 +1,26 @@
-<div>
-    <p>{{name}}</p>
-</div>
+
+@if(isAddngTask) {
+    <app-new-task  (cancel)="onRemoveDialog()"/>
+}
+
+<section id="tasks">
+    <header>
+        <!-- binding value variable passed to the html templates-->
+        <h2>{{name}}'s Tasks</h2>
+        <menu>
+            <button (click)="onAddTask()">
+                Add Task
+            </button> 
+        </menu>
+    </header>
+
+    <ul>
+        @for (task of selectedUserTask; track task.id) {
+            <li>
+            <app-tasks [userTask]="task" (completed)="onCompleteTask($event)"/>
+        </li>
+        }
+        
+        
+    </ul>
+</section>
