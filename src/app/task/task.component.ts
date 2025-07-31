@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { dummyTasks } from '../dummy-tasks';
+import { Component, Input} from '@angular/core';
 import { TasksComponent } from "./tasks/tasks.component";
 import { NewTaskComponent } from './new-task/new-task.component';
 import { type newTask } from './new-task/new-task.model';
+import { TaskService } from './tasks.service';
 
 // standalone component for task management
 // it takes userId and name as inputs and emits the selected tasks for that user
@@ -25,34 +25,19 @@ export class TaskComponent {
   @Input({required:true}) userId!: string;
   @Input({required:true}) name!: string;
   isAddngTask: boolean = false;
-  // Output for task selection, passing the tasks to the tasks component
-  tasks = dummyTasks;
+
+// Injecting the TaskService to manage tasks
+  constructor(private tasksService: TaskService) {}
+
+  
   // Output event emitter for task selection
   get selectedUserTask() {
-    return this.tasks.filter(task => task.userId === this.userId);
+    return this.tasksService.getUserTasks(this.userId);
   }
-
-  onCompleteTask(id: string) {
-    // Handle the completion of a task by filtering out the completed task
-    this.tasks = this.tasks.filter(task => task.id !== id);
-   }
-
    onAddTaskDialog() {
     this.isAddngTask = true;
    }
    onRemoveDialog() {
     this.isAddngTask = false;
-  }
-
-  onAddTask(taskData:newTask){
-    this.tasks.push({
-      id: Math.random().toString(),
-      userId: this.userId,
-      title: taskData.title,
-      summary: taskData.summary,
-      dueDate: taskData.dueDate
-    });
-    this.isAddngTask = false;
-
   }
 }
