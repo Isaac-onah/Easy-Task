@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { dummyTasks } from '../dummy-tasks';
 import { TasksComponent } from "./tasks/tasks.component";
 import { NewTaskComponent } from './new-task/new-task.component';
+import { type newTask } from './new-task/new-task.model';
 
 // standalone component for task management
 // it takes userId and name as inputs and emits the selected tasks for that user
@@ -36,10 +37,22 @@ export class TaskComponent {
     this.tasks = this.tasks.filter(task => task.id !== id);
    }
 
-   onAddTask() {
+   onAddTaskDialog() {
     this.isAddngTask = true;
    }
    onRemoveDialog() {
     this.isAddngTask = false;
+  }
+
+  onAddTask(taskData:newTask){
+    this.tasks.push({
+      id: Math.random().toString(),
+      userId: this.userId,
+      title: taskData.title,
+      summary: taskData.summary,
+      dueDate: taskData.dueDate
+    });
+    this.isAddngTask = false;
+
   }
 }

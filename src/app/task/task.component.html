@@ -1,6 +1,6 @@
 
 @if(isAddngTask) {
-    <app-new-task  (cancel)="onRemoveDialog()"/>
+    <app-new-task  (cancel)="onRemoveDialog()" (add)="onAddTask($event)"/>
 }
 
 <section id="tasks">
@@ -8,7 +8,7 @@
         <!-- binding value variable passed to the html templates-->
         <h2>{{name}}'s Tasks</h2>
         <menu>
-            <button (click)="onAddTask()">
+            <button (click)="onAddTaskDialog()">
                 Add Task
             </button> 
         </menu>
